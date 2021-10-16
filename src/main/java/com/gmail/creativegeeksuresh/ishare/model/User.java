@@ -38,10 +38,16 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false, unique = true)
+    private String emailAddress;
+
+    @Column(nullable = false)
+    private String displayName;
+
     @Column(nullable = false)
     private Boolean status = Boolean.TRUE;
 
-    @Column(name = "created_at",nullable = false)
+    @Column(name = "created_at", nullable = false)
     private Date createdAt;
 
     @OneToOne(fetch = FetchType.EAGER)

@@ -1,6 +1,7 @@
 package com.gmail.creativegeeksuresh.ishare.controller;
 
 import com.gmail.creativegeeksuresh.ishare.dto.CustomErrorResponse;
+import com.gmail.creativegeeksuresh.ishare.dto.UserDto;
 import com.gmail.creativegeeksuresh.ishare.exception.InvalidUserException;
 import com.gmail.creativegeeksuresh.ishare.model.User;
 import com.gmail.creativegeeksuresh.ishare.service.UserService;
@@ -67,7 +68,7 @@ public class UserApiController {
   }
 
   @PatchMapping(value = "/update")
-  public ResponseEntity<?> updateUser(@RequestBody User user) {
+  public ResponseEntity<?> updateUser(@RequestBody UserDto user) {
     try {
       return new ResponseEntity<>(userService.updateUser(user), HttpStatus.OK);
     } catch (InvalidUserException iuex) {

@@ -1,5 +1,7 @@
 package com.gmail.creativegeeksuresh.ishare.configuration;
 
+import java.util.Arrays;
+
 import javax.servlet.http.HttpServletResponse;
 
 import com.gmail.creativegeeksuresh.ishare.security.CustomUserDetailsService;
@@ -17,6 +19,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -30,7 +35,7 @@ public class CustomConfiguration extends WebSecurityConfigurerAdapter {
 
   @Autowired
   JwtTokenFilter jwtTokenFilter;
-  
+
   @Bean
   public BCryptPasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
@@ -71,30 +76,29 @@ public class CustomConfiguration extends WebSecurityConfigurerAdapter {
     http = http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and();
 
     // Set unauthorized requests exception handler
-    http = http
-    .exceptionHandling()
-    .authenticationEntryPoint(
-        (request, response, ex) -> {
-            response.sendError(
-                HttpServletResponse.SC_UNAUTHORIZED,
-                ex.getMessage()
-            );
-        }
-    )
-    .and();
+    http = http.exceptionHandling().authenticationEntryPoint((request, response, ex) -> {
+      response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
+    }).and();
 
     // Set permissions on endpoints
     http.authorizeRequests()
-    // Our public endpoints
-    .antMatchers("/api/v1/global/**").permitAll()
-    // Our private endpoints
-    .anyRequest().authenticated();
+        // Our public endpoints
+        .antMatchers("/api/v1/global/**").permitAll()
+        // Our private endpoints
+        .anyRequest().authenticated();
 
     // Add JWT token filter
-    http.addFilterBefore(
-      jwtTokenFilter,
-      UsernamePasswordAuthenticationFilter.class
-  );
+    http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
   }
 
+  @Bean
+  CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    configuration.setAllowedOrigins(Arrays.asList("*"));
+    configuration.setAllowedMethods(Arrays.asList("*"));
+    configuration.setAllowedHeaders(Arrays.asList("*"));
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/api/v1/**", configuration);
+    return source;
+  }
 }

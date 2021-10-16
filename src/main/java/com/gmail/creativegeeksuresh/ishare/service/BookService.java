@@ -10,6 +10,7 @@ import com.gmail.creativegeeksuresh.ishare.model.Book;
 import com.gmail.creativegeeksuresh.ishare.repository.BookRepository;
 import com.gmail.creativegeeksuresh.ishare.service.util.CustomUtils;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,13 +29,14 @@ public class BookService {
             throw new BookAlreadyExistsException("Book with same title already exists");
 
         Book newBook = new Book();
-        newBook.setTitle(request.getTitle());
-        newBook.setAuthor(request.getAuthor());
-        newBook.setDescription(request.getDescription());
-        newBook.setAvailable(request.getAvailable());
-        newBook.setPublishedYear(request.getPublishedYear());
+        BeanUtils.copyProperties(request, newBook);
+        // newBook.setTitle(request.getTitle());
+        // newBook.setAuthor(request.getAuthor());
+        // newBook.setDescription(request.getDescription());
+        // newBook.setAvailable(request.getAvailable());
+        // newBook.setPublishedYear(request.getPublishedYear());
         newBook.setUid(customUtils.generateToken());
-        newBook.setLocation(request.getLocation());
+        // newBook.setLocation(request.getLocation());
         return bookRepo.save(newBook);
     }
 
@@ -69,11 +71,12 @@ public class BookService {
         if (book == null)
             throw new InvalidBookException("Book does not exists");
         else {
-            book.setTitle(request.getTitle());
-            book.setAuthor(request.getAuthor());
-            book.setDescription(request.getDescription());
-            book.setAvailable(request.getAvailable());
-            book.setPublishedYear(request.getPublishedYear());
+            BeanUtils.copyProperties(request, book, "id", "uid", "location");
+            // book.setTitle(request.getTitle());
+            // book.setAuthor(request.getAuthor());
+            // book.setDescription(request.getDescription());
+            // book.setAvailable(request.getAvailable());
+            // book.setPublishedYear(request.getPublishedYear());
             return bookRepo.save(book);
         }
     }
@@ -88,7 +91,7 @@ public class BookService {
         }
     }
 
-    public void updateBookPath(String uid, String path) throws InvalidBookException, Exception{
+    public void updateBookPath(String uid, String path) throws InvalidBookException, Exception {
         Book book = bookRepo.findByUid(uid);
         if (book == null)
             throw new InvalidBookException("Book does not exists");

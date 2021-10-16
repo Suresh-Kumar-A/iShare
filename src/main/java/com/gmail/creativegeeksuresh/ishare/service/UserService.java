@@ -13,6 +13,7 @@ import com.gmail.creativegeeksuresh.ishare.repository.UserRepository;
 import com.gmail.creativegeeksuresh.ishare.service.util.AppConstants;
 import com.gmail.creativegeeksuresh.ishare.service.util.CustomUtils;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class UserService {
     if (userRepository.findByUsername(request.getUsername()) != null)
       throw new UserAlreadyExistsException("User with similar data exists");
     User newUser = new User();
-    newUser.setUsername(request.getUsername());
+    BeanUtils.copyProperties(request, newUser);
     newUser.setPassword(customUtils.encodeUsingBcryptPasswordEncoder(request.getPassword()));
     newUser.setUid(customUtils.generateToken());
     newUser.setCreatedAt(new Date());
@@ -107,20 +108,14 @@ public class UserService {
       throw new InvalidUserException("User Does not Exists");
   }
 
-  public User updateUser(User user) throws InvalidUserException, Exception {
+  public User updateUser(UserDto user) throws InvalidUserException, Exception {
     User temp = findByUid(user.getUid());
     if (temp != null) {
-      if (user.getUsername() != null && user.getUsername().trim() != "") {
-        temp.setUsername(user.getUsername());
-      }
-
-      if (user.getPassword() != null && !user.getPassword().isBlank()) {
-        temp.setPassword(customUtils.encodeUsingBcryptPasswordEncoder(user.getPassword()));
-      }
+      BeanUtils.copyProperties(user, temp, "uid", "sno", "createdAt","role");
+      temp.setPassword(customUtils.encodeUsingBcryptPasswordEncoder(user.getPassword()));
 
       return userRepository.save(temp);
     } else
       throw new InvalidUserException("User Does not Exists");
   }
 }
-
