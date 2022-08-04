@@ -10,15 +10,18 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Builder.Default;
 
 @Entity
 @Table(name = "users")
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Column
@@ -45,6 +48,7 @@ public class User {
     private String displayName;
 
     @Column(nullable = false)
+    @Default
     private Boolean status = Boolean.TRUE;
 
     @Column(name = "created_at", nullable = false)

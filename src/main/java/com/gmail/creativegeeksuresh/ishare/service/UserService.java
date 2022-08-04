@@ -111,11 +111,15 @@ public class UserService {
   public User updateUser(UserDto user) throws InvalidUserException, Exception {
     User temp = findByUid(user.getUid());
     if (temp != null) {
-      BeanUtils.copyProperties(user, temp, "uid", "sno", "createdAt","role");
+      BeanUtils.copyProperties(user, temp, "uid", "sno", "createdAt", "role");
       temp.setPassword(customUtils.encodeUsingBcryptPasswordEncoder(user.getPassword()));
 
       return userRepository.save(temp);
     } else
       throw new InvalidUserException("User Does not Exists");
+  }
+
+  public void bulkImportUsers(List<User> userList) throws Exception {
+    userRepository.saveAll(userList);
   }
 }

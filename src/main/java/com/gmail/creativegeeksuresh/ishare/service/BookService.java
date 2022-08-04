@@ -104,4 +104,8 @@ public class BookService {
     public Book findByUid(String uid) {
         return bookRepo.findByUid(uid);
     }
+
+    public void bulkImportBooks(List<Book> bookList) throws Exception {
+        bookRepo.saveAll(bookList);
+      }
 }

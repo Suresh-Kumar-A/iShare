@@ -8,14 +8,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Builder.Default;
 
 @Entity
 @Table(name = "books")
-@Getter
-@Setter
+@Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class Book {
 
@@ -37,9 +40,11 @@ public class Book {
     private String description;
 
     @Column
+    @Default
     private String location="";
 
     @Column
+    @Default
     private Boolean available = Boolean.TRUE;
 
     @Column(name = "published_year")
