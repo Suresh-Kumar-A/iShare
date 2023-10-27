@@ -1,4 +1,4 @@
-package com.gmail.creativegeeksuresh.ishare;
+package io.github.ishare;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
