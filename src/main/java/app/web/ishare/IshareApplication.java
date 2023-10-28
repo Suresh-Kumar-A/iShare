@@ -1,13 +1,13 @@
-package io.github.ishare;
+package app.web.ishare;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class IShareApplication {
+public class IshareApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(IShareApplication.class, args);
+		SpringApplication.run(IshareApplication.class, args);
 	}
 
 }

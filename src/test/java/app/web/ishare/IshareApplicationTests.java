@@ -1,10 +1,10 @@
-package io.github.ishare;
+package app.web.ishare;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class IShareApplicationTests {
+class IshareApplicationTests {
 
 	@Test
 	void contextLoads() {

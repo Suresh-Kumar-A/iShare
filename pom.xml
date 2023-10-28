@@ -8,11 +8,11 @@
 		<version>3.1.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>io.github</groupId>
+	<groupId>app.web</groupId>
 	<artifactId>ishare</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>iShare</name>
-	<description>Online Library Application - API Service</description>
+	<name>ishare</name>
+	<description>Video Streaming Application | API Service </description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
