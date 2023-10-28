@@ -1,6 +1,6 @@
 {"properties": [
   {
-    "name": "default.storage.path",
+    "name": "app.storage.path",
     "type": "java.lang.String",
     "description": "default location where all uploaded books need to be stored"
   },
